@@ -5,24 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Country extends Model
+class Idioma extends Model
 {
     //Tabla a conectar a este modelo
-    protected $table = "countries";
+    protected $table = "languages";
     //La clave primaria de esaa tbla
-    protected $primaryKey = "country_id";
+    protected $primaryKey = "language_id";
     //Omitir campos de auditoria
     public $timestamps = false;
     
     use HasFactory;
 
-    //Relacion entre paises e ididomas
-    public function idiomas(){
+    //Relacción entre idioma y países 
+    public function paises(){
         //belongsToMany: Parámetros
         //1. El modelo a relacionar
         //2. La tablaa pivote
         //3. Clave foránez del modelo actual (country) en el pivote
         //4. Clave foránea del modelo a relacionar en el pivote
-        return $this->belongsToMany(Idioma::class, 'country_languages', 'country_id', 'language_id')->withPivot('official');
+        return $this->belongsToMany(Country::class, 'country_languages', 'language_id', 
+        'country_id');
     }
 }
