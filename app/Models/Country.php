@@ -25,4 +25,8 @@ class Country extends Model
         //4. Clave foránea del modelo a relacionar en el pivote
         return $this->belongsToMany(Idioma::class, 'country_languages', 'country_id', 'language_id')->withPivot('official');
     }
+
+    public function region(){
+        return $this->belongsTo(Region::Class, 'region_id');
+    }
 }

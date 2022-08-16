@@ -1,0 +1,108 @@
+// Seleccione el codigo2 , de los países que comienzan con “C”
+Country::where('name', 'like', 'C%')->
+... select('country_code2')->
+... get()
+
+//Seleccione name, área , de los países con más de 2 millones km2
+Country::select('name', 'area')->
+... where('area', '>=', '2000000')->
+... get()
+
+// Seleccione name, área , de los países de entre 5 y 10 millones km2
+Country::select('name', 'area')->
+... wherebetween('area', ['5000000', '10000000'])->
+... get()
+
+// Seleccione national_day , name , de los países independizados o
+creados(national_day) durante la edad moderna.
+Country::select('national_day', 'name')->
+... wherebetween('national_day', ['1492-10-12', '1789-07-14'])->
+... get()
+
+//Seleccione el nombre de los países que pertenecen a la región Caribbean
+Region::find(1)->
+... paises()->
+... select('name')->
+... get()
+
+// Seleccione el nombre de las regiones de Europa
+use App\Models\Continent
+>>> Continent::find(4)->
+... regiones()->
+... select('name')->
+... get()
+
+// Seleccione el nombre de los países de la región “Melanesia”
+Region::find(22)->
+... paises()->
+... select('name')->
+... get()
+
+// ¿A que Región Pertenece el País India?
+use App\Models\Country
+>>> Country::find(100)->
+... region()->
+... select('name')->
+... get()
+
+// Seleccione los idiomas que se hablan en China
+>>> Continent::find(4)->
+... regiones()->
+... select('name')->
+... get()
+
+//Seleccione los países(únicamente el nombre) que hablan ingles, cuya fecha de
+independencia(national_day) fue anterior al siglo XIX.
+>>> Idioma::find(2)->paises()->
+... where('national_day', '<', '1801-01-01')->
+... select('name')->
+... get()
+
+// Seleccione los idiomas que se hablan en Colombia Y que comienzan con “C”
+>>> Country::find(48)->
+... idiomas()->
+... where('language' , 'like' , 'C%')->
+... get()
+
+// Seleccione el idioma oficial de United States(el idioma oficial se reconoce en la
+tabla pivote “country_languages” , con su atributo oficial y su valor es 1 )
+>>> Country::find(224)->
+... idiomas()->
+... where('official', '=', 1)->
+... get()
+
+// Seleccione los países del Continente Asia, cuya área es mayor a 1000000km2
+>>> Continent::find(2)->
+... paises->
+... select('area')->
+... where('area', '>', '1000000')->
+... get()
+
+//¿Cuál es el área total de los países de Africa?
+>>> Continent::find(3)->
+... paises()->
+... sum('area')
+=> "30250377.00"
+
+// En promedio, ¿Cual es el área de los países de Suramérica?
+>>> Continent::find(5)->
+... paises->
+... avg('area')
+=> 1276066.1428571
+
+// Seleccione el total del area de la región Melanesia
+>>> Region::find(22)->
+... paises->
+... sum('area')
+=> 540774.0
+
+// Seleccione la mínima área de la región Baltic countries
+>>> Region::find(21)->
+... paises->
+... min('area')
+=> "45227.00"
+
+// A que ¿Continente Pertenece el país Belarus?
+>>> Country::find(27)->
+... Region->
+... Continente
